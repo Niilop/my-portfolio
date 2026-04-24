@@ -23,33 +23,62 @@ PROJECTS = [
             "target marketing. Managed end-to-end in Microsoft Fabric: data collection, "
             "cleaning, feature engineering, and model training."
         ),
-        "tech": ["Python", "Scikit-learn", "Microsoft Fabric", "Azure", "ML", "Regression"],
+        "tech": ["Python", "Scikit-learn", "Microsoft Fabric", "Azure", "Regression"],
         "github": "",
         "demo": "",
         "featured": True,
     },
     {
-        "id": "stock-news",
-        "title": "Stock News Intelligence",
+        "id": "mario-ddqn",
+        "title": "Super Mario Land — DDQN Agent",
         "description": (
-            "Real-time financial news aggregator with NLP-powered sentiment analysis, "
-            "named-entity ticker extraction, and a FastAPI backend serving a React dashboard."
+            "Trained a Double Deep Q-Network (DDQN) reinforcement learning agent to play "
+            "Super Mario Land. Covers environment wrappers, replay memory, target network "
+            "updates, and reward shaping to achieve stable game-playing behaviour."
         ),
-        "tech": ["Python", "FastAPI", "PostgreSQL", "NLP", "Docker"],
-        "github": "https://github.com/niilop/stock-news",
+        "tech": ["Python", "PyTorch", "Reinforcement Learning", "DDQN", "OpenAI Gym"],
+        "github": "https://github.com/niilop/Super-Mario-Land-DDQN-Project",
         "demo": "",
         "featured": True,
     },
     {
-        "id": "ds-platform",
-        "title": "DS Platform Template",
+        "id": "stock-sentiment",
+        "title": "Stock Sentiment",
         "description": (
-            "Production-ready FastAPI template featuring RAG with pgvector, "
-            "persistent multi-turn chat, JWT auth, async background jobs, and "
-            "pluggable LLM support (Gemini, OpenAI, Anthropic)."
+            "Collects historical and real-time stock news via the Alpaca API and runs "
+            "FinBERT sentiment analysis on each article. Users select a time frame and "
+            "get a breakdown of positive, neutral, and negative news for any ticker. "
+            "News stored in Azure Blob Storage and cleaned in Databricks using a "
+            "medallion architecture."
+        ),
+        "tech": ["Python", "FinBERT", "Alpaca API", "Azure Blob", "Databricks", "FastAPI"],
+        "github": "https://github.com/niilop/stock-sentiment",
+        "demo": "",
+        "featured": False,
+    },
+    {
+        "id": "fastapi-template",
+        "title": "My FastAPI Template",
+        "description": (
+            "Production-ready FastAPI template used as the foundation for most of my "
+            "Python software projects. Includes RAG with pgvector, persistent chat, "
+            "JWT auth, async background jobs, and pluggable LLM support."
         ),
         "tech": ["FastAPI", "LangChain", "pgvector", "PostgreSQL", "Docker"],
-        "github": "https://github.com/niilop/my-portfolio",
+        "github": "https://github.com/niilop/My-FastAPI-template",
+        "demo": "",
+        "featured": False,
+    },
+    {
+        "id": "ml-sandbox",
+        "title": "ML Sandbox",
+        "description": (
+            "Platform for uploading and hosting ML models and datasets, with agentic "
+            "sentiment analysis on uploaded data. Supports model management, dataset "
+            "exploration, and AI-driven insight generation."
+        ),
+        "tech": ["Python", "FastAPI", "LangChain", "Scikit-learn", "Pandas", "Docker"],
+        "github": "https://github.com/niilop/ml-sandbox",
         "demo": "",
         "featured": False,
     },

@@ -60,7 +60,7 @@
       <div class="about-expertise">
         <div class="expertise-item expertise-item--blue">
           <h4>Classical Machine Learning</h4>
-          <p>Regression, classification, random forest, SVM, churn modeling, time series forecasting, clustering, segmentation, and dimensionality reduction.</p>
+          <p>Supervised and unsupervised methods — regression, classification, random forest, SVM, clustering, dimensionality reduction, and model selection with rigorous evaluation.</p>
         </div>
         <div class="expertise-item expertise-item--purple">
           <h4>LLM &amp; Agentic AI</h4>
@@ -76,7 +76,7 @@
         </div>
         <div class="expertise-item expertise-item--amber">
           <h4>Analytics &amp; Insight</h4>
-          <p>Exploratory data analysis, predictive analytics, revenue estimation, target marketing modeling, and transforming raw data into actionable business decisions.</p>
+          <p>Exploratory data analysis, statistical storytelling, Jupyter notebooks, data visualisation, and translating findings into clear business recommendations.</p>
         </div>
       </div>
     </div>
@@ -105,7 +105,9 @@
           </div>
         </div>
         <div class="project-card__footer">
+          {% if project.github %}
           <a href="{{ project.github }}" class="btn btn-sm btn-outline" target="_blank" rel="noopener">GitHub</a>
+          {% endif %}
           {% if project.demo %}
           <a href="{{ project.demo }}" class="btn btn-sm btn-primary" target="_blank" rel="noopener">Live Demo</a>
           {% endif %}
@@ -133,7 +135,9 @@
           </div>
         </div>
         <div class="project-card__footer">
+          {% if project.github %}
           <a href="{{ project.github }}" class="btn btn-sm btn-outline" target="_blank" rel="noopener">GitHub</a>
+          {% endif %}
           {% if project.demo %}
           <a href="{{ project.demo }}" class="btn btn-sm btn-primary" target="_blank" rel="noopener">Live Demo</a>
           {% endif %}
