@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="hero-inner fade-in">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Hi, I'm</p>
+      <h1>{{ about.name }}</h1>
+      <p class="hero-title">{{ about.title }}</p>
+      <p class="hero-bio">{{ about.bio }}</p>
+      <div class="hero-links">
+        <a href="{{ about.github }}" class="btn btn-primary" target="_blank" rel="noopener">GitHub</a>
+        <a href="{{ about.linkedin }}" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
+        {% if about.cv_url %}
+        <a href="{{ about.cv_url }}" class="btn btn-outline" target="_blank" rel="noopener">Download CV</a>
+        {% endif %}
+        <a href="/docs" class="btn btn-ghost" target="_blank" rel="noopener">API Docs</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-placeholder">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="40" cy="30" r="16" fill="#334155"/>
+          <ellipse cx="40" cy="62" rx="24" ry="14" fill="#334155"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <h2 class="section-title">About</h2>
+        <p>
+          Master of Data Science based in Finland, specializing in end-to-end AI and analytics solutions. 
+          I bridge the gap between raw data and production-ready applications by combining robust 
+          software engineering with advanced machine learning. My focus is on delivering reliable and 
+          maintainable systems. I leverage modern AI coding assistants to accelerate development while 
+          maintaining strict quality control and rigorous code review standards for production safety.
+        </p>
+        <p>
+          My interest in data science sparked during my computer science bachelor's degree, motivating 
+          me to focus heavily on math and statistics to build a strong foundation for data science. 
+          Getting my master's degree was a rewarding journey that taught me how to apply deeply theoretical 
+          concepts to real, hands on tasks. 
+        </p>
+        <p> 
+          Outside of work and personal projects, creativity is a huge part of my life. 
+          Whether I am producing music, playing the piano, DJing or playing video games and tabletop RPGs, 
+          I find that my creative mindset directly helps me tackle challenges in unique ways.
+        </p>
+        <p class="about-location">
+          <span class="icon">&#x1F4CD;</span> {{ about.location }}
+        </p>
+      </div>
+      <div class="about-expertise">
+        <div class="expertise-item expertise-item--blue">
+          <h4>Classical Machine Learning</h4>
+          <p>Regression, classification, random forest, SVM, churn modeling, time series forecasting, clustering, segmentation, and dimensionality reduction.</p>
+        </div>
+        <div class="expertise-item expertise-item--purple">
+          <h4>LLM &amp; Agentic AI</h4>
+          <p>RAG pipelines, multi-step agents, tool-use architectures with LangChain, and comfortable use of agentic coding tools with rigorous code review practices.</p>
+        </div>
+        <div class="expertise-item expertise-item--sky">
+          <h4>Software &amp; Backend Engineering</h4>
+          <p>Production FastAPI services, full stack development, REST APIs, async job queues, and analytical Jupyter notebooks for business insight derivation.</p>
+        </div>
+        <div class="expertise-item expertise-item--green">
+          <h4>Data Engineering</h4>
+          <p>ETL pipelines, data collection and cleansing, stream processing with Kafka, vector databases, PostgreSQL, and cloud platforms — Fabric, Azure, Snowflake, Databricks.</p>
+        </div>
+        <div class="expertise-item expertise-item--amber">
+          <h4>Analytics &amp; Insight</h4>
+          <p>Exploratory data analysis, predictive analytics, revenue estimation, target marketing modeling, and transforming raw data into actionable business decisions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PROJECTS ========== -->
+<section id="projects" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Projects</h2>
+
+    <!-- Featured projects -->
+    <div class="featured-projects">
+      {% for project in projects if project.featured %}
+      <div class="project-card project-card--featured fade-in">
+        <div class="project-card__image">
+          <span class="project-card__image-label">Project Preview</span>
+        </div>
+        <div class="project-card__body">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <div class="tech-badges">
+            {% for tech in project.tech %}
+            <span class="badge">{{ tech }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="project-card__footer">
+          <a href="{{ project.github }}" class="btn btn-sm btn-outline" target="_blank" rel="noopener">GitHub</a>
+          {% if project.demo %}
+          <a href="{{ project.demo }}" class="btn btn-sm btn-primary" target="_blank" rel="noopener">Live Demo</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Other projects grid -->
+    {% set other_projects = projects | selectattr("featured", "equalto", false) | list %}
+    {% if other_projects %}
+    <div class="projects-grid">
+      {% for project in other_projects %}
+      <div class="project-card fade-in">
+        <div class="project-card__image project-card__image--sm">
+          <span class="project-card__image-label">Project Preview</span>
+        </div>
+        <div class="project-card__body">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <div class="tech-badges">
+            {% for tech in project.tech %}
+            <span class="badge">{{ tech }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="project-card__footer">
+          <a href="{{ project.github }}" class="btn btn-sm btn-outline" target="_blank" rel="noopener">GitHub</a>
+          {% if project.demo %}
+          <a href="{{ project.demo }}" class="btn btn-sm btn-primary" target="_blank" rel="noopener">Live Demo</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills" class="section">
+  <div class="container">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      {% for category, skill_list in skills.items() %}
+      {% set cat_key = category | lower | replace(' & ', '-') | replace(' ', '-') %}
+      <div class="skill-category skill-category--{{ cat_key }} fade-in">
+        <h3>{{ category }}</h3>
+        <div class="skill-tags">
+          {% for skill in skill_list %}
+          <span class="skill-tag skill-tag--{{ cat_key }}">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-grid fade-in">
+      <div class="contact-form-wrap">
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="submit-btn">Send Message</button>
+          <p id="form-status" class="form-status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="contact-info">
+        <p>Prefer direct contact? Reach me at:</p>
+        <a href="mailto:{{ about.email }}" class="contact-pill">{{ about.email }}</a>
+        <a href="{{ about.github }}" class="contact-pill" target="_blank" rel="noopener">GitHub</a>
+        <a href="{{ about.linkedin }}" class="contact-pill" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

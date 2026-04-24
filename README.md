@@ -1,258 +1,155 @@
-# FastAPI LLM Template
+# Niilo Pääkkönen — Portfolio
 
-A modular FastAPI backend template for building LLM-powered applications with RAG, persistent chat, async jobs, and multi-provider AI support.
+Personal portfolio site built with FastAPI and Jinja2. Serves both the HTML frontend and a public REST API from a single Docker container, deployed on Render with GitHub Actions CI/CD.
 
 ---
 
-## Features
+## Stack
 
-### Authentication
-- JWT-based login (HS256, configurable expiry)
-- User registration with bcrypt password hashing
-- Login via email or username
-- Protected routes via `Depends(get_current_user)`
-
-### Retrieval-Augmented Generation (RAG)
-- Document ingestion with automatic chunking (RecursiveCharacterTextSplitter)
-- Vector embeddings via Google Gemini (768-dim, stored in pgvector)
-- Cosine similarity retrieval from PostgreSQL
-- Sync (`POST /rag/ingest`) and async (`POST /rag/ingest/async`) ingestion
-- LLM-powered query answering with retrieved context
-- Per-user document isolation
-
-### Persistent Chat
-- Multi-turn conversation threading
-- Full message history stored per conversation
-- System prompt support
-- Conversation lifecycle: create, continue, list, delete
-
-### Async Background Jobs
-- UUID-based job tracking
-- States: `PENDING → RUNNING → COMPLETED / FAILED`
-- Poll job status via `GET /jobs/{job_id}`
-- Used for non-blocking RAG ingestion
-
-### LLM Integration
-- Multi-provider support: **Gemini**, **OpenAI**, **Anthropic**
-- Runtime provider selection via `LLM_PROVIDER` env var
-- Streaming text summarization (SSE)
-- LangChain abstraction for easy provider swapping
-
-### Data Management
-- CSV upload with validation (10 MB max, 10 datasets per user)
-- Automatic metadata extraction
-- Persistent catalog with timestamps
-
-### Rate Limiting
-- slowapi-based throttling per endpoint
-- Returns HTTP 429 when exceeded
-
-### Frontend
-- Streamlit UI with login/register, chat interface, and API testing
+| Layer | Technology |
+|---|---|
+| Backend | FastAPI + Uvicorn |
+| Frontend | Jinja2 templates + vanilla CSS/JS |
+| Tests | pytest + FastAPI TestClient |
+| Container | Docker |
+| CI/CD | GitHub Actions |
+| Hosting | Render (free tier) |
 
 ---
 
 ## Project Structure
 
 ```
-Template/
+my-portfolio/
 ├── backend/
 │   ├── api/endpoints/
-│   │   ├── auth.py           # Registration, login, /me
-│   │   ├── chat.py           # Conversation threading
-│   │   ├── rag.py            # Document ingestion & querying
-│   │   ├── jobs.py           # Async job status
-│   │   ├── llm.py            # Summarization (streaming)
-│   │   ├── data.py           # CSV upload & catalog
-│   │   └── example.py        # Template endpoint
-│   ├── services/
-│   │   ├── auth_service.py
-│   │   ├── rag_service.py
-│   │   ├── chat_service.py
-│   │   ├── job_service.py
-│   │   ├── llm_service.py
-│   │   └── data_service.py
-│   ├── models/
-│   │   ├── database.py       # SQLAlchemy ORM models
-│   │   └── schemas.py        # Pydantic schemas
+│   │   └── portfolio.py      # All API routes
 │   ├── core/
-│   │   ├── config.py         # Settings & env vars
-│   │   ├── database.py       # DB engine & session
-│   │   ├── rate_limit.py
-│   │   └── logging.py
-│   ├── alembic/versions/
-│   │   ├── 001_initial.py
-│   │   ├── 002_add_document_chunks.py
-│   │   ├── 003_add_chat_threads.py
-│   │   └── 004_add_background_jobs.py
+│   │   ├── config.py         # Settings (pydantic-settings)
+│   │   └── rate_limit.py     # slowapi limiter
+│   ├── data/
+│   │   └── portfolio_data.py # Content source of truth
+│   ├── models/
+│   │   └── schemas.py        # Pydantic response models
+│   ├── static/
+│   │   ├── css/style.css
+│   │   └── js/main.js
+│   ├── templates/
+│   │   ├── base.html
+│   │   └── index.html
 │   ├── main.py
-│   └── requirements.txt
-├── frontend/
-│   ├── app.py                # Streamlit UI
+│   ├── Dockerfile
 │   └── requirements.txt
 ├── tests/
-│   ├── test_auth.py
-│   └── test_rag_service.py
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── external/
-├── docker-compose.yaml
-└── .env.example
-```
-
----
-
-## Architecture
-
-```
-Client
-  ↓
-FastAPI Route  (api/endpoints/)
-  ↓
-Pydantic Schema  (validation)
-  ↓
-Service Layer  (business logic)
-  ↓
-PostgreSQL / pgvector / LLM Provider
-  ↓
-JSON Response
-```
-
-### Database Schema
-
-| Table | Key Columns |
-|---|---|
-| `users` | email, username, password_hash |
-| `conversations` | user_id, title |
-| `messages` | conversation_id, role, content |
-| `document_chunks` | user_id, source, content, embedding (768-dim) |
-| `background_jobs` | id (UUID), job_type, status, result, error |
-| `data_catalogs` | user_id, name, file_path, metadata |
-
----
-
-## Getting Started
-
-### 1. Configure environment
-
-```bash
-cp .env.example .env
-# Fill in: DATABASE_URL, LLM_PROVIDER, GEMINI_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY, JWT_SECRET_KEY
-```
-
-### 2. Start services
-
-```bash
-docker-compose up --build
-```
-
-This starts:
-- `db` — PostgreSQL 16 with pgvector (port 5432)
-- `backend` — FastAPI + Uvicorn with hot reload (port 8000)
-- `frontend` — Streamlit UI (port 8501)
-
-### 3. Apply migrations
-
-```bash
-cd backend
-alembic upgrade head
+│   └── test_portfolio.py
+├── .github/workflows/ci.yml
+├── render.yaml
+├── pyproject.toml
+└── docker-compose.yaml
 ```
 
 ---
 
 ## API Endpoints
 
-### Auth
 | Method | Path | Description |
 |---|---|---|
-| POST | `/auth/register` | Register a new user |
-| POST | `/auth/login` | Get JWT token |
-| GET | `/auth/me` | Current user info |
-
-### Chat
-| Method | Path | Description |
-|---|---|---|
-| POST | `/chat/conversations` | Create conversation |
-| GET | `/chat/conversations` | List conversations |
-| POST | `/chat/conversations/{id}/messages` | Send message |
-| GET | `/chat/conversations/{id}/messages` | Get history |
-| DELETE | `/chat/conversations/{id}` | Delete conversation |
-
-### RAG
-| Method | Path | Description |
-|---|---|---|
-| POST | `/rag/ingest` | Ingest document (sync) |
-| POST | `/rag/ingest/async` | Ingest document (async job) |
-| POST | `/rag/query` | Query with retrieval |
-
-### Jobs
-| Method | Path | Description |
-|---|---|---|
-| GET | `/jobs/{job_id}` | Poll job status |
-
-### LLM
-| Method | Path | Description |
-|---|---|---|
-| POST | `/llm/summarize` | Streaming summarization |
-
-### Data
-| Method | Path | Description |
-|---|---|---|
-| POST | `/data/upload` | Upload CSV |
-| GET | `/data/catalog` | List datasets |
-
-### System
-| Method | Path | Description |
-|---|---|---|
+| GET | `/` | Portfolio page (HTML) |
 | GET | `/health` | Health check |
-| GET | `/metrics` | Basic metrics |
+| GET | `/api/projects` | List all projects |
+| GET | `/api/projects/{id}` | Single project |
+| GET | `/api/skills` | Skills by category |
+| GET | `/api/about` | About info |
+| POST | `/api/contact` | Contact form (rate limited 3/min) |
 | GET | `/docs` | Swagger UI |
 
 ---
 
-## Database Migrations
+## Running Locally
+
+**Option 1 — Direct**
 
 ```bash
-# Create a new migration after changing models/database.py
-alembic revision --autogenerate -m "description"
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-# Apply migrations
-alembic upgrade head
+**Option 2 — Docker Compose**
+
+```bash
+docker compose up --build
+```
+
+Open `http://localhost:8000`. No `.env` required to run locally.
+
+---
+
+## Updating Content
+
+All portfolio content lives in one file — no database, no CMS:
+
+```
+backend/data/portfolio_data.py
+```
+
+Edit `ABOUT`, `PROJECTS`, or `SKILLS` and the changes are reflected on both the HTML page and the API responses.
+
+**Adding a project image:** drop an image into `backend/static/img/` and replace the placeholder div in `index.html`:
+
+```html
+<div class="project-card__image">
+  <img src="/static/img/your-project.png" alt="Project name" />
+</div>
 ```
 
 ---
 
-## Testing
+## Tests
 
 ```bash
-# Run test suite
-pytest tests/
-
-# Or use the REST client examples
-# tests/test.http (VS Code REST Client)
+pytest tests/ -v
 ```
 
----
-
-## LLM Provider Configuration
-
-Set `LLM_PROVIDER` in `.env` to switch providers at runtime:
-
-| Value | Provider | Required Key |
-|---|---|---|
-| `gemini` | Google Gemini | `GEMINI_API_KEY` |
-| `openai` | OpenAI | `OPENAI_API_KEY` |
-| `anthropic` | Anthropic | `ANTHROPIC_API_KEY` |
+Tests run in-process via `TestClient` — no live server or database needed.
 
 ---
 
-## Purpose
+## CI/CD
 
-This template is a starting point for building:
-- LLM-powered chat applications
-- RAG systems with persistent vector storage
-- Data pipelines with async processing
-- Multi-tenant AI backends
+On every push to `main`:
 
-It is intentionally **modular**: swap providers, add endpoints, or extend the service layer without restructuring the project.
+1. GitHub Actions installs dependencies, runs `ruff` linting and `pytest`
+2. If tests pass, a deploy hook triggers Render to redeploy
+
+To set up: copy the deploy hook URL from **Render → Service → Settings → Deploy Hook** and add it as a GitHub repository secret named `RENDER_DEPLOY_HOOK_URL`.
+
+---
+
+## Deployment (Render)
+
+The `render.yaml` at the repo root configures the service. Connect the GitHub repo on [render.com](https://render.com) and it auto-detects the config.
+
+Key settings:
+
+```yaml
+runtime: docker
+dockerfilePath: ./backend/Dockerfile
+dockerContext: .
+healthCheckPath: /health
+region: frankfurt
+```
+
+The free tier spins down after 15 minutes of inactivity — the first request after sleep takes ~30 seconds.
+
+---
+
+## Optional: Contact Form Email Delivery
+
+By default, contact form submissions are logged to stdout (visible in Render's log viewer). To enable email delivery, add these environment variables in the Render dashboard:
+
+```
+SMTP_USER=your-gmail@gmail.com
+SMTP_PASSWORD=your-app-password
+CONTACT_TO_EMAIL=your@email.com
+```

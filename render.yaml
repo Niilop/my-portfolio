@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: niilo-portfolio
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: free
+    region: frankfurt
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: APP_ENV
+        value: production
