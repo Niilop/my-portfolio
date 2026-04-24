@@ -64,7 +64,7 @@ class TestSkillsAPI:
     def test_skills_have_expected_categories(self):
         r = client.get("/api/skills")
         cats = r.json()["categories"]
-        for expected in ["Languages", "Frameworks", "Tools", "Cloud"]:
+        for expected in ["Languages", "ML & AI", "Backend & Data", "Cloud & Platforms"]:
             assert expected in cats
 
 
