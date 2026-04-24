@@ -1,5 +1,9 @@
 from pathlib import Path
 
+from api.endpoints.portfolio import router as portfolio_router
+from core.config import get_settings
+from core.rate_limit import limiter
+from data.portfolio_data import ABOUT, PROJECTS, SKILLS
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -7,11 +11,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-
-from api.endpoints.portfolio import router as portfolio_router
-from core.config import get_settings
-from core.rate_limit import limiter
-from data.portfolio_data import ABOUT, PROJECTS, SKILLS
 
 BASE_DIR = Path(__file__).parent
 

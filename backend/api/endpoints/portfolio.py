@@ -1,9 +1,8 @@
 import logging
 
-from fastapi import APIRouter, HTTPException, Request
-
 from core.rate_limit import limiter
 from data.portfolio_data import ABOUT, PROJECTS, SKILLS
+from fastapi import APIRouter, HTTPException, Request
 from models.schemas import AboutOut, ContactIn, ContactOut, ProjectOut, SkillsOut
 
 router = APIRouter(prefix="/api", tags=["Portfolio API"])
