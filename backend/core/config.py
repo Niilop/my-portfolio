@@ -7,8 +7,13 @@ class Settings(BaseSettings):
     app_name: str = "Niilo Paakkonen | Portfolio"
     app_env: str = "production"
     debug: bool = False
-    contact_email: str = ""
     cors_origins: list[str] = ["*"]
+
+    smtp_host: str = "smtp.gmail.com"
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    contact_to_email: str = ""
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../.env"),
