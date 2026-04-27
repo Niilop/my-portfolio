@@ -26,6 +26,7 @@ PROJECTS = [
         "tech": ["Python", "Scikit-learn", "Microsoft Fabric", "Azure", "Regression"],
         "github": "",
         "demo": "",
+        "image": "/static/images/project-thesis.jpg",
         "featured": True,
     },
     {
@@ -39,6 +40,8 @@ PROJECTS = [
         "tech": ["Python", "PyTorch", "Reinforcement Learning", "DDQN", "OpenAI Gym"],
         "github": "https://github.com/niilop/Super-Mario-Land-DDQN-Project",
         "demo": "",
+        "image": "/static/images/MarioAI.gif",
+        "image_position": "bottom",
         "featured": True,
     },
     {
@@ -54,6 +57,7 @@ PROJECTS = [
         "tech": ["Python", "FinBERT", "Alpaca API", "Azure Blob", "Databricks", "FastAPI"],
         "github": "https://github.com/niilop/stock-sentiment",
         "demo": "",
+        "image": "/static/images/project-stock.jpg",
         "featured": False,
     },
     {
@@ -67,6 +71,7 @@ PROJECTS = [
         "tech": ["FastAPI", "LangChain", "pgvector", "PostgreSQL", "Docker"],
         "github": "https://github.com/niilop/My-FastAPI-template",
         "demo": "",
+        "image": "/static/images/project-fastapi.jpg",
         "featured": False,
     },
     {
@@ -80,6 +85,7 @@ PROJECTS = [
         "tech": ["Python", "FastAPI", "LangChain", "Scikit-learn", "Pandas", "Docker"],
         "github": "https://github.com/niilop/ml-sandbox",
         "demo": "",
+        "image": "/static/images/project-ml-sandbox.jpg",
         "featured": False,
     },
     {
@@ -92,6 +98,7 @@ PROJECTS = [
         "tech": ["FastAPI", "Jinja2", "Docker", "GitHub Actions", "Render"],
         "github": "https://github.com/niilop/my-portfolio",
         "demo": "",
+        "image": "/static/images/project-portfolio.jpg",
         "featured": False,
     },
 ]

@@ -1,3 +1,28 @@
+// Lightbox
+const lightbox    = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCap = document.getElementById('lightbox-caption');
+
+function openLightbox(src, title) {
+  lightboxImg.src = src;
+  lightboxImg.alt = title;
+  lightboxCap.textContent = title;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+
+document.querySelectorAll('.lightbox-trigger').forEach(el => {
+  el.addEventListener('click', () => openLightbox(el.dataset.src, el.dataset.title));
+});
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
 // Sticky nav shadow on scroll
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
