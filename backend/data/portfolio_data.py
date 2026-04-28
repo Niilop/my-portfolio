@@ -101,6 +101,20 @@ PROJECTS = [
         "image": "/static/images/project-portfolio.jpg",
         "featured": False,
     },
+    {
+        "id": "warehouse-sim",
+        "title": "Warehouse Optimization Simulator",
+        "description": (
+            "Full-stack warehouse optimization simulator with A* pathfinding, realistic demand modeling, "
+            "and data-driven slotting strategies. Includes real-time WebSocket visualization, a browser "
+            "layout editor, and a Jupyter analysis pipeline for comparing performance across scenarios."
+        ),
+        "tech": ["Python","NumPy","FastAPI","WebSockets","AsyncIO","JavaScript","HTML/CSS","Matplotlib",],
+        "github": "https://github.com/Niilop/storage-sim",
+        "demo": "",
+        "image": "/static/images/warehouse-sim.jpg",
+        "featured": False,
+    }
 ]
 
 SKILLS = {
