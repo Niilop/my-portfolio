@@ -65,7 +65,7 @@ def index(request: Request):
 def _first_paragraph(body: str) -> str:
     for line in body.splitlines():
         line = line.strip()
-        if line and not line.startswith("#"):
+        if line and not line.startswith("#") and not line.startswith("<"):
             return re.sub(r"\*{1,2}|`", "", line)
     return ""
 
@@ -97,11 +97,12 @@ def blog_post(request: Request, slug: str):
     if not path.exists():
         raise HTTPException(status_code=404, detail="Post not found")
     meta, body = _parse_frontmatter(path.read_text(encoding="utf-8"))
-    html_content = markdown.markdown(body, extensions=["tables", "fenced_code", "extra"])
+    md = markdown.Markdown(extensions=["tables", "fenced_code", "extra", "toc"], extension_configs={"toc": {"toc_depth": "2"}})
+    html_content = md.convert(body)
     return templates.TemplateResponse(
         request=request,
         name="blog_post.html",
-        context={"about": ABOUT, "meta": meta, "content": html_content},
+        context={"about": ABOUT, "meta": meta, "content": html_content, "toc": md.toc},
     )
 
 

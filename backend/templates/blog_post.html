@@ -6,33 +6,42 @@
 
     <a href="/blog" class="blog-back-link">&#8592; Back to Blog</a>
 
-    <article class="blog-article fade-in">
-      <header class="blog-article__header">
-        <h1>{{ meta.title or "Post" }}</h1>
-        {% if meta.date %}
-        <p class="blog-article__date">{{ meta.date }}</p>
-        {% endif %}
-        {% if meta.summary %}
-        <p class="blog-article__summary">{{ meta.summary }}</p>
-        {% endif %}
-      </header>
+    <div class="blog-layout">
+      <article class="blog-article fade-in">
+        <header class="blog-article__header">
+          <h1>{{ meta.title or "Post" }}</h1>
+          {% if meta.date %}
+          <p class="blog-article__date">{{ meta.date }}</p>
+          {% endif %}
+          {% if meta.summary %}
+          <p class="blog-article__summary">{{ meta.summary }}</p>
+          {% endif %}
+        </header>
 
-      {% if content %}
-      <div class="blog-article__body">
-        {{ content | safe }}
-      </div>
-      {% endif %}
-
-      {% if meta.notebook_url %}
-      <div class="notebook-embed">
-        <div class="notebook-embed__header">
-          <span>Jupyter Notebook</span>
-          <a href="{{ meta.notebook_url }}" target="_blank" rel="noopener" class="notebook-embed__open">Open in nbviewer &nearr;</a>
+        {% if content %}
+        <div class="blog-article__body">
+          {{ content | safe }}
         </div>
-        <iframe src="{{ meta.notebook_url }}" class="notebook-embed__frame" loading="lazy" title="Jupyter Notebook"></iframe>
-      </div>
+        {% endif %}
+
+        {% if meta.notebook_url %}
+        <div class="notebook-embed">
+          <div class="notebook-embed__header">
+            <span>Jupyter Notebook</span>
+            <a href="{{ meta.notebook_url }}" target="_blank" rel="noopener" class="notebook-embed__open">Open in nbviewer &nearr;</a>
+          </div>
+          <iframe src="{{ meta.notebook_url }}" class="notebook-embed__frame" loading="lazy" title="Jupyter Notebook"></iframe>
+        </div>
+        {% endif %}
+      </article>
+
+      {% if toc and '</li>' in toc %}
+      <aside class="blog-toc fade-in">
+        <p class="blog-toc__heading">Contents</p>
+        {{ toc | safe }}
+      </aside>
       {% endif %}
-    </article>
+    </div>
 
   </div>
 </section>
