@@ -27,7 +27,7 @@ PROJECTS = [
         "github": "",
         "demo": "",
         "image": "/static/images/project-thesis.jpg",
-        "featured": True,
+        "featured": False,
     },
     {
         "id": "mario-ddqn",
@@ -99,7 +99,7 @@ PROJECTS = [
         "tech": ["FastAPI", "Jinja2", "Docker", "GitHub Actions", "Render"],
         "github": "https://github.com/niilop/my-portfolio",
         "demo": "",
-        "image": "/static/images/project-portfolio.jpg",
+        "image": "/static/images/my-portfolio.jpg",
         "featured": False,
     },
     {
@@ -114,7 +114,7 @@ PROJECTS = [
         "github": "https://github.com/Niilop/storage-sim",
         "demo": "",
         "image": "/static/images/warehouse-sim.jpg",
-        "featured": False,
+        "featured": True,
         "blog_post": "warehouse-layout-optimization",
     }
 ]
