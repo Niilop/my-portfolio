@@ -559,6 +559,255 @@ img { display: block; max-width: 100%; }
   cursor: zoom-in;
 }
 
+/* ===== Project card links group ===== */
+.project-card__links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.project-card__blog-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.6rem;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.project-card__blog-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.project-card__blog-link svg { width: 0.95rem; height: 0.95rem; }
+
+/* ===== Blog index ===== */
+.blog-index-page {
+  padding-top: calc(var(--nav-h) + 3rem);
+  padding-bottom: 5rem;
+}
+.blog-index-header {
+  margin-bottom: 3rem;
+}
+.blog-index-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.4rem;
+}
+.blog-index-header__sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+.blog-index-header__wip {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+.blog-feed {
+  max-width: 780px;
+}
+.blog-feed-item {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.blog-feed-item:first-child { padding-top: 0; }
+.blog-feed-item__date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.blog-feed-item__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.blog-feed-item__title a {
+  color: var(--text);
+}
+.blog-feed-item__title a:hover { color: var(--accent); text-decoration: none; }
+.blog-feed-item__summary {
+  color: var(--text-muted);
+  font-size: 0.97rem;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+.blog-feed-item__links {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.blog-feed-item__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.6rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.blog-feed-item__link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.blog-feed-item__link svg { width: 0.9rem; height: 0.9rem; }
+.blog-feed-item__preview {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.blog-feed-item__read-more {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.blog-feed-item__read-more:hover { text-decoration: underline; }
+.blog-empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ===== Notebook embed ===== */
+.notebook-embed {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.notebook-embed__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.notebook-embed__open {
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+.notebook-embed__open:hover { text-decoration: underline; }
+.notebook-embed__frame {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  background: #fff;
+}
+
+/* ===== Blog post page ===== */
+.blog-post-page { padding-top: calc(var(--nav-h) + 2rem); }
+.blog-back-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+.blog-back-link:hover { color: var(--accent); text-decoration: none; }
+.blog-article {
+  max-width: 780px;
+}
+.blog-article__header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+.blog-article__header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.blog-article__date {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.blog-article__summary {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+.blog-article__body { line-height: 1.8; }
+.blog-article__body h1,
+.blog-article__body h2,
+.blog-article__body h3,
+.blog-article__body h4 {
+  margin: 2rem 0 0.75rem;
+  color: var(--text);
+}
+.blog-article__body h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+.blog-article__body h3 { font-size: 1.15rem; }
+.blog-article__body p { margin-bottom: 1rem; color: var(--text); }
+.blog-article__body ul,
+.blog-article__body ol {
+  margin: 0.75rem 0 1rem 1.5rem;
+  color: var(--text);
+}
+.blog-article__body li { margin-bottom: 0.3rem; }
+.blog-article__body a { color: var(--accent); }
+.blog-article__body img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  margin: 1.5rem 0;
+}
+.blog-article__body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+.blog-article__body th,
+.blog-article__body td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.blog-article__body th {
+  background: var(--surface);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.blog-article__body tr:nth-child(even) td { background: var(--surface); }
+.blog-article__body code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.4em;
+  font-size: 0.88em;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  color: var(--accent);
+}
+.blog-article__body pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.blog-article__body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+.blog-article__body blockquote {
+  border-left: 3px solid var(--accent);
+  margin: 1.25rem 0;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-muted);
+}
+
 /* ===== Footer ===== */
 footer {
   text-align: center;

@@ -43,6 +43,7 @@ PROJECTS = [
         "image": "/static/images/MarioAI.gif",
         "image_position": "bottom",
         "featured": True,
+        "blog_post": "ddqn-mario-project",
     },
     {
         "id": "stock-sentiment",
@@ -114,6 +115,7 @@ PROJECTS = [
         "demo": "",
         "image": "/static/images/warehouse-sim.jpg",
         "featured": False,
+        "blog_post": "warehouse-layout-optimization",
     }
 ]
 

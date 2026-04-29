@@ -12,6 +12,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Local utilities
+convert_notebook.py
+
 # Python
 __pycache__/
 *.py[cod]

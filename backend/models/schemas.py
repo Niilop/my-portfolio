@@ -9,6 +9,7 @@ class ProjectOut(BaseModel):
     github: str
     demo: str
     featured: bool
+    blog_post: str | None = None
 
 
 class SkillsOut(BaseModel):

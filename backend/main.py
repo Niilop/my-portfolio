@@ -1,10 +1,12 @@
+import re
 from pathlib import Path
 
+import markdown
 from api.endpoints.portfolio import router as portfolio_router
 from core.config import get_settings
 from core.rate_limit import limiter
 from data.portfolio_data import ABOUT, PROJECTS, SKILLS
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,6 +15,19 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 BASE_DIR = Path(__file__).parent
+BLOG_DIR = BASE_DIR / "data" / "blog"
+
+
+def _parse_frontmatter(text: str) -> tuple[dict, str]:
+    match = re.match(r"^---\n(.*?)\n---\n?", text, re.DOTALL)
+    if not match:
+        return {}, text
+    meta: dict = {}
+    for line in match.group(1).splitlines():
+        if ": " in line:
+            k, v = line.split(": ", 1)
+            meta[k.strip()] = v.strip().strip('"')
+    return meta, text[match.end():]
 
 settings = get_settings()
 
@@ -44,6 +59,49 @@ def index(request: Request):
         request=request,
         name="index.html",
         context={"about": ABOUT, "projects": PROJECTS, "skills": SKILLS},
+    )
+
+
+def _first_paragraph(body: str) -> str:
+    for line in body.splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            return re.sub(r"\*{1,2}|`", "", line)
+    return ""
+
+
+@app.get("/blog", response_class=HTMLResponse)
+def blog_index(request: Request):
+    posts = []
+    if BLOG_DIR.exists():
+        for f in sorted(BLOG_DIR.glob("*.md"), reverse=True):
+            meta, body = _parse_frontmatter(f.read_text(encoding="utf-8"))
+            posts.append({
+                "slug": f.stem,
+                "title": meta.get("title", f.stem),
+                "date": meta.get("date", ""),
+                "summary": meta.get("summary", ""),
+                "github": meta.get("github", ""),
+                "preview": _first_paragraph(body),
+            })
+    return templates.TemplateResponse(
+        request=request,
+        name="blog_index.html",
+        context={"about": ABOUT, "posts": posts},
+    )
+
+
+@app.get("/blog/{slug}", response_class=HTMLResponse)
+def blog_post(request: Request, slug: str):
+    path = BLOG_DIR / f"{slug}.md"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Post not found")
+    meta, body = _parse_frontmatter(path.read_text(encoding="utf-8"))
+    html_content = markdown.markdown(body, extensions=["tables", "fenced_code", "extra"])
+    return templates.TemplateResponse(
+        request=request,
+        name="blog_post.html",
+        context={"about": ABOUT, "meta": meta, "content": html_content},
     )
 
 

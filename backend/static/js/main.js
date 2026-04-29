@@ -19,9 +19,12 @@ function closeLightbox() {
 document.querySelectorAll('.lightbox-trigger').forEach(el => {
   el.addEventListener('click', () => openLightbox(el.dataset.src, el.dataset.title));
 });
-lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+}
+const lightboxClose = document.getElementById('lightbox-close');
+if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lightbox) closeLightbox(); });
 
 // Sticky nav shadow on scroll
 const navbar = document.getElementById('navbar');
