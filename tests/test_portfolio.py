@@ -103,3 +103,23 @@ class TestContactAPI:
     def test_contact_missing_fields(self):
         r = client.post("/api/contact", json={"name": "Test"})
         assert r.status_code == 422
+
+
+class TestBlogRoutes:
+    def test_blog_index_returns_html(self):
+        r = client.get("/blog")
+        assert r.status_code == 200
+        assert "text/html" in r.headers["content-type"]
+
+    def test_blog_post_returns_200_with_title(self):
+        r = client.get("/blog/ddqn-mario-project")
+        assert r.status_code == 200
+        assert "Teaching an AI to Play Super Mario Land" in r.text
+
+    def test_blog_post_not_found(self):
+        r = client.get("/blog/does-not-exist")
+        assert r.status_code == 404
+
+    def test_blog_post_path_traversal(self):
+        r = client.get("/blog/../etc")
+        assert r.status_code in (404, 422)

@@ -8,6 +8,7 @@ class ProjectOut(BaseModel):
     tech: list[str]
     github: str
     demo: str
+    image: str
     featured: bool
     blog_post: str | None = None
 
