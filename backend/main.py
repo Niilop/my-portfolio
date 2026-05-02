@@ -74,7 +74,7 @@ def _first_paragraph(body: str) -> str:
 def blog_index(request: Request):
     posts = []
     if BLOG_DIR.exists():
-        for f in sorted(BLOG_DIR.glob("*.md"), reverse=True):
+        for f in BLOG_DIR.glob("*.md"):
             meta, body = _parse_frontmatter(f.read_text(encoding="utf-8"))
             posts.append({
                 "slug": f.stem,
@@ -84,6 +84,7 @@ def blog_index(request: Request):
                 "github": meta.get("github", ""),
                 "preview": _first_paragraph(body),
             })
+        posts.sort(key=lambda p: p["date"], reverse=True)
     return templates.TemplateResponse(
         request=request,
         name="blog_index.html",

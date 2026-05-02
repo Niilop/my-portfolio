@@ -1,6 +1,6 @@
 ---
 title: "Teaching an AI to Play Super Mario Land"
-date: 2026-04-29
+date: 2026-04-28
 summary: "Training a Double Deep Q-Network agent to play Super Mario Land — covering environment wrappers, replay memory, target networks, and reward shaping."
 slug: ddqn-mario-project
 github: https://github.com/Niilop/Super-Mario-Land-DDQN-Project

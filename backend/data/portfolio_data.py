@@ -103,6 +103,22 @@ PROJECTS = [
         "featured": False,
     },
     {
+        "id": "model-selection-agent",
+        "title": "LLM Model Selection Agent",
+        "description": (
+            "A Claude-powered agent that profiles a regression dataset and reasons about which "
+            "model families to try — compared head-to-head against exhaustive GridSearchCV (715 CV fits) "
+            "and Optuna Bayesian optimisation (500 CV fits). The agent matched or beat both baselines "
+            "using ~30 CV fits per dataset, with its clearest win on Energy Efficiency (−5.9% vs GridSearch)."
+        ),
+        "tech": ["Python", "Claude API", "Scikit-learn", "Optuna", "Pandas", "Anthropic SDK"],
+        "github": "https://github.com/Niilop/model-selection-agent",
+        "demo": "",
+        "image": "",
+        "featured": True,
+        "blog_post": "model-selection-agent",
+    },
+    {
         "id": "warehouse-sim",
         "title": "Warehouse Optimization Simulator",
         "description": (

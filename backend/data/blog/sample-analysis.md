@@ -1,6 +1,6 @@
 ---
 title: "Sample Data Analysis Post"
-date: 2026-04-29
+date: 2026-04-27
 summary: "A placeholder post to test the blog layout and markdown rendering."
 slug: sample-analysis
 ---
