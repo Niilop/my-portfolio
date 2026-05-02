@@ -20,7 +20,10 @@
     </div>
     <div class="hero-avatar">
       <div class="avatar-placeholder">
-        <img src="/static/images/portrait.jpg" alt="Niilo Pääkkönen" />
+        <picture>
+          <source srcset="/static/images/portrait.webp" type="image/webp" />
+          <img src="/static/images/portrait.jpg" alt="Niilo Pääkkönen" />
+        </picture>
       </div>
     </div>
   </div>
@@ -91,7 +94,10 @@
       <div class="project-card project-card--featured fade-in">
         <div class="project-card__image{% if project.image %} lightbox-trigger{% endif %}"{% if project.image %} data-src="{{ project.image }}" data-title="{{ project.title }}"{% endif %}>
           {% if project.image %}
-          <img src="{{ project.image }}" alt="{{ project.title }} screenshot" loading="lazy"{% if project.image_position %} style="object-position: {{ project.image_position }}"{% endif %} />
+          <picture>
+            <source srcset="{{ project.image | replace('.jpg', '.webp') }}" type="image/webp" />
+            <img src="{{ project.image }}" alt="{{ project.title }} screenshot" loading="lazy"{% if project.image_position %} style="object-position: {{ project.image_position }}"{% endif %} />
+          </picture>
           {% else %}
           <span class="project-card__image-label">Project Preview</span>
           {% endif %}
@@ -138,7 +144,10 @@
       <div class="project-card fade-in">
         <div class="project-card__image project-card__image--sm{% if project.image %} lightbox-trigger{% endif %}"{% if project.image %} data-src="{{ project.image }}" data-title="{{ project.title }}"{% endif %}>
           {% if project.image %}
-          <img src="{{ project.image }}" alt="{{ project.title }} screenshot" loading="lazy"{% if project.image_position %} style="object-position: {{ project.image_position }}"{% endif %} />
+          <picture>
+            <source srcset="{{ project.image | replace('.jpg', '.webp') }}" type="image/webp" />
+            <img src="{{ project.image }}" alt="{{ project.title }} screenshot" loading="lazy"{% if project.image_position %} style="object-position: {{ project.image_position }}"{% endif %} />
+          </picture>
           {% else %}
           <span class="project-card__image-label">Project Preview</span>
           {% endif %}

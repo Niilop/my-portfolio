@@ -1,6 +1,6 @@
-import re
 from pathlib import Path
 
+import frontmatter
 import markdown
 from api.endpoints.portfolio import router as portfolio_router
 from core.config import get_settings
@@ -19,16 +19,16 @@ BASE_DIR = Path(__file__).parent
 BLOG_DIR = BASE_DIR / "data" / "blog"
 
 
-def _parse_frontmatter(text: str) -> tuple[dict, str]:
-    match = re.match(r"^---\n(.*?)\n---\n?", text, re.DOTALL)
-    if not match:
-        return {}, text
-    meta: dict = {}
-    for line in match.group(1).splitlines():
-        if ": " in line:
-            k, v = line.split(": ", 1)
-            meta[k.strip()] = v.strip().strip('"')
-    return meta, text[match.end():]
+def _read_frontmatter_only(path: Path) -> dict:
+    """Read only up to the closing --- to avoid loading multi-hundred-KB post bodies."""
+    lines: list[str] = []
+    with path.open(encoding="utf-8") as fh:
+        for i, line in enumerate(fh):
+            lines.append(line)
+            if i > 0 and line.strip() == "---":
+                break
+    post = frontmatter.loads("".join(lines))
+    return dict(post.metadata)
 
 setup_logging()
 settings = get_settings()
@@ -64,27 +64,20 @@ def index(request: Request):
     )
 
 
-def _first_paragraph(body: str) -> str:
-    for line in body.splitlines():
-        line = line.strip()
-        if line and not line.startswith("#") and not line.startswith("<"):
-            return re.sub(r"\*{1,2}|`", "", line)
-    return ""
-
 
 @app.get("/blog", response_class=HTMLResponse)
 def blog_index(request: Request):
     posts = []
     if BLOG_DIR.exists():
         for f in BLOG_DIR.glob("*.md"):
-            meta, body = _parse_frontmatter(f.read_text(encoding="utf-8"))
+            meta = _read_frontmatter_only(f)
             posts.append({
                 "slug": f.stem,
                 "title": meta.get("title", f.stem),
                 "date": meta.get("date", ""),
                 "summary": meta.get("summary", ""),
                 "github": meta.get("github", ""),
-                "preview": _first_paragraph(body),
+                "preview": meta.get("summary", ""),
             })
         posts.sort(key=lambda p: p["date"], reverse=True)
     return templates.TemplateResponse(
@@ -99,13 +92,13 @@ def blog_post(request: Request, slug: str):
     path = BLOG_DIR / f"{slug}.md"
     if path.parent != BLOG_DIR or not path.exists():
         raise HTTPException(status_code=404, detail="Post not found")
-    meta, body = _parse_frontmatter(path.read_text(encoding="utf-8"))
+    post = frontmatter.load(str(path))
     md = markdown.Markdown(extensions=["tables", "fenced_code", "extra", "toc"], extension_configs={"toc": {"toc_depth": "2"}})
-    html_content = md.convert(body)
+    html_content = md.convert(post.content)
     return templates.TemplateResponse(
         request=request,
         name="blog_post.html",
-        context={"about": ABOUT, "meta": meta, "content": html_content, "toc": md.toc},
+        context={"about": ABOUT, "meta": post.metadata, "content": html_content, "toc": md.toc},
     )
 
 

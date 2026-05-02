@@ -100,6 +100,7 @@ PROJECTS = [
         "github": "https://github.com/niilop/my-portfolio",
         "demo": "",
         "image": "/static/images/my-portfolio.jpg",
+        "image_position": "top",
         "featured": False,
     },
     {
