@@ -4,6 +4,7 @@ from pathlib import Path
 import markdown
 from api.endpoints.portfolio import router as portfolio_router
 from core.config import get_settings
+from core.logging import setup_logging
 from core.rate_limit import limiter
 from data.portfolio_data import ABOUT, PROJECTS, SKILLS
 from fastapi import FastAPI, HTTPException, Request
@@ -29,6 +30,7 @@ def _parse_frontmatter(text: str) -> tuple[dict, str]:
             meta[k.strip()] = v.strip().strip('"')
     return meta, text[match.end():]
 
+setup_logging()
 settings = get_settings()
 
 app = FastAPI(
@@ -95,7 +97,7 @@ def blog_index(request: Request):
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 def blog_post(request: Request, slug: str):
     path = BLOG_DIR / f"{slug}.md"
-    if not path.exists():
+    if path.parent != BLOG_DIR or not path.exists():
         raise HTTPException(status_code=404, detail="Post not found")
     meta, body = _parse_frontmatter(path.read_text(encoding="utf-8"))
     md = markdown.Markdown(extensions=["tables", "fenced_code", "extra", "toc"], extension_configs={"toc": {"toc_depth": "2"}})

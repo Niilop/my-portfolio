@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     app_name: str = "Niilo Paakkonen | Portfolio"
     app_env: str = "production"
     debug: bool = False
-    cors_origins: list[str] = ["*"]
+    cors_origins: list[str] = ["https://www.niilopaakkonen.com"]
 
     smtp_host: str = "smtp.gmail.com"
     smtp_port: int = 587
